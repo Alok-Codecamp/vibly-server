@@ -8,7 +8,7 @@ export interface ISignupData {
 }
 
 // interface for login input data used in auth module
-export interface ILoginData {
+export interface ISigninData {
   email: string;
   password: string;
 }

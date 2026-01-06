@@ -1,7 +1,9 @@
-// shcema for auth module
-
 import { model, Schema } from "mongoose";
 import type { ISignupData } from "./auth.interface.js";
+import { config } from "../../config/config.js";
+import bcrypt from "bcrypt";
+
+
 
 
 
@@ -14,7 +16,16 @@ export const SignupSchema = new Schema<ISignupData>({
     email: { type: String, required: true, unique: true },
 })
 
+SignupSchema.pre<ISignupData>("save", async function (next) {
+    // hashing password before saving user
+    const plainTextPassword = this.password;
+    const saltRounds = parseInt(config.saltRounds || "10", 10);
+    const hashedPassword = await bcrypt.hash(plainTextPassword,saltRounds,);
 
-const signupModel = model<ISignupData>("Signup", SignupSchema);
+    this.password = hashedPassword;
+    
+});
 
-export default signupModel;
+const userModel = model<ISignupData>("user", SignupSchema);
+
+export default userModel;
