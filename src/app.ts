@@ -1,6 +1,7 @@
 import express, { type Application } from "express";
 import cors from "cors";
 import { authRoutes } from "./app/modules/auth/auth.routes.js";
+import globalErrorHandler from "./app/middleware/globalErrorHandler.js";
 
 
 // define express application
@@ -20,6 +21,7 @@ app.use('/api/auth', authRoutes)
 
 
 // app exported here 
+app.use(globalErrorHandler);
 export default app;
 
 

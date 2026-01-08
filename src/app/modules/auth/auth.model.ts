@@ -21,9 +21,7 @@ SignupSchema.pre<ISignupData>("save", async function (next) {
     const plainTextPassword = this.password;
     const saltRounds = parseInt(config.saltRounds || "10", 10);
     const hashedPassword = await bcrypt.hash(plainTextPassword,saltRounds,);
-
     this.password = hashedPassword;
-    
 });
 
 const userModel = model<ISignupData>("user", SignupSchema);
