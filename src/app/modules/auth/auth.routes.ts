@@ -13,6 +13,8 @@ router.post("/signup",requestValidator(authValidation.signUp), authController.si
 
 router.post("/signin",requestValidator(authValidation.signIn), authController.signIn);
 
+router.post("/forgot-password", authController.forgotPassword);
+
 
 
 

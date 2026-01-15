@@ -25,7 +25,18 @@ const signIn = asyncWrapper(async(req:Request, res:Response,next:NextFunction) =
         message:"Signin successful", token:token
     });
 })
+
+const forgotPassword = asyncWrapper(async(req:Request, res:Response,next:NextFunction) => {
+
+    const {email} = req.body;
+    if(!email){
+        throw new AppError(false,400,'Email is required');
+    }
+    const token = await authServices.forgotPassword(email);
+    res.status(200).json({message:"Forgot password email sent", token: token});
+});
 export const authController =  {
     signup,
-    signIn
+    signIn,
+    forgotPassword
 };

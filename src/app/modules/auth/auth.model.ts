@@ -26,6 +26,10 @@ SignupSchema.pre<ISignupData>("save", async function (next) {
     this.password = hashedPassword;
 });
 
+SignupSchema.post("save", function (doc) {
+ this.password = ""
+})
+
 const userModel = model<ISignupData>("user", SignupSchema);
 
 export default userModel;

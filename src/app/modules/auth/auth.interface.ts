@@ -15,16 +15,18 @@ export interface ISigninData {
   password: string;
 }
 
-// interface for reset password input data used in auth module
-export interface IResetPasswordData {
-  email: string;
-}
 
 // interface for forgot password input data used in auth module
 export interface IForgotPasswordData {
-  password: string;
-  confirmPassword: string;
+  email: string;
 }   
+
+// interface for reset password input data used in auth module
+export interface IResetPasswordData {
+  newPassword: string;
+  confirmPassword: string;
+  
+}
 
 // interface for token data used in auth module
 export interface ITokenData {

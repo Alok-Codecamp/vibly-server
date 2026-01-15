@@ -9,5 +9,6 @@ export const config = {
     jwtSecret: process.env.JWT_SECRET,
     jwtExpire: process.env.JWT_EXPIRE,
     cookieExpire: process.env.COOKIE_EXPIRE,
-    saltRounds: process.env.SALT_ROUNDS
+    saltRounds: process.env.SALT_ROUNDS,
+    googleAppPassword: process.env.GOOGLE_APP_PASSWORD
 }
