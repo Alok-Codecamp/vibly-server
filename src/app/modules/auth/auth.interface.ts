@@ -1,10 +1,12 @@
 // interface for signup input data used in auth module
 
 export interface ISignupData {
-    name: string;
+    firstName: string;
+    lastName: string;
     dob: string;
-    password: string;
     email: string;
+    password: string;
+    
 }
 
 // interface for login input data used in auth module

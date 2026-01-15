@@ -12,6 +12,20 @@ import asyncWrapper from "../../utils/asyncWrapper.js";
    
 });
 
+const signIn = asyncWrapper(async(req:Request, res:Response,next:NextFunction) => {
+    const loginData = req.body;
+    const token = await authServices.signIn(loginData);
+    if(!token) {
+        throw new AppError(false,500,'Signin failed');
+    }
+    res.cookie('token',token,{
+        httpOnly:true,
+    })
+    res.status(200).json({
+        message:"Signin successful", token:token
+    });
+})
 export const authController =  {
-    signup
+    signup,
+    signIn
 };

@@ -4,7 +4,7 @@ export interface IError {
     name: string;
     message: string;
     stack?: string;
+    errors?: Record<string, string>;
     code?: number;
-    errmsg?: string;
     keyValue?: Record<string, any>;
     };

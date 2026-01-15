@@ -10,10 +10,12 @@ import bcrypt from "bcrypt";
 // signup schema
 
 export const SignupSchema = new Schema<ISignupData>({
-    name: { type: String, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
     dob: { type: String, required: true },
-    password: { type: String, required: true },
     email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    
 })
 
 SignupSchema.pre<ISignupData>("save", async function (next) {
