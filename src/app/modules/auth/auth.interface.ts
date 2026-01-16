@@ -1,5 +1,4 @@
 // interface for signup input data used in auth module
-
 export interface ISignupData {
     firstName: string;
     lastName: string;
@@ -24,7 +23,6 @@ export interface IForgotPasswordData {
 // interface for reset password input data used in auth module
 export interface IResetPasswordData {
   newPassword: string;
-  confirmPassword: string;
   
 }
 

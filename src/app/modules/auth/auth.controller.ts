@@ -25,7 +25,7 @@ const signIn = asyncWrapper(async(req:Request, res:Response,next:NextFunction) =
         message:"Signin successful", token:token
     });
 })
-
+// controller function for handle forgot password request
 const forgotPassword = asyncWrapper(async(req:Request, res:Response,next:NextFunction) => {
 
     const {email} = req.body;
@@ -35,8 +35,25 @@ const forgotPassword = asyncWrapper(async(req:Request, res:Response,next:NextFun
     const token = await authServices.forgotPassword(email);
     res.status(200).json({message:"Forgot password email sent", token: token});
 });
+
+// controller function for handle reset password request
+const resetPassword = asyncWrapper(async(req:Request, res:Response,next:NextFunction) => {
+    const token = req.query.token as string;
+    const {newPassword} = req.body;
+    if(!token || !newPassword){
+        throw new AppError(false,400,'Token and new password are required');
+    }
+
+    const result = await authServices.resetPassword(token,newPassword);
+    res.status(200).json({message:"Password reset successful", data: result});
+
+})
+
+
+// export all controller functions
 export const authController =  {
     signup,
     signIn,
-    forgotPassword
+    forgotPassword,
+    resetPassword
 };

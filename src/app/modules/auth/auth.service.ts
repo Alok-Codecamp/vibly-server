@@ -2,8 +2,9 @@ import { config } from "../../config/config.js";
 import AppError from "../../errors/appError.js";
 import sendEmail from "../../utils/mailSender.js";
 import type { ISigninData, ISignupData } from "./auth.interface.js";
-import signupModel from "./auth.model.js";
+import userModel from "./auth.model.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 //service function for handle signup logic
 const signup = async(signUpData:ISignupData) => {
     console.log(signUpData)
@@ -11,30 +12,50 @@ const signup = async(signUpData:ISignupData) => {
         throw new AppError(false,400,'Missing required fields');
     }
     
-    const result = await signupModel.create(signUpData);
+    const result = await userModel.create(signUpData);
 
     return result;
 }
 
 const signIn = async(loginData:ISigninData) => {
     // signin Logic here 
-    if(!loginData.email || !loginData.password){
+
+    const {email,password} = loginData;
+
+    // validate input
+    if(!email || !password){
         throw new AppError(false,400,'Missing required fields');
     }
-    const result = await signupModel.findOne({email:loginData.email});
-    if(!result){
+    // check if user exists
+    const existedUser = await userModel.findOne({email});
+
+    // if user not found
+    if(!existedUser){
         throw new AppError(false,404,'User not found');
     }
+    // compare password
+    const isPasswordMatch = await bcrypt.compare(password,existedUser.password);
+
+    console.log(isPasswordMatch)
+
+    // if password does not match
+    if(!isPasswordMatch){
+        throw new AppError(false,401,'Invalid credentials');
+    }
+
+    //create payload for token
     const payload = { 
-        userId: result._id.toString(),
-        email:result.email
+        userId: existedUser._id.toString(),
+        email:existedUser.email
 
     };
     
+// generate jwt token
     const token = jwt.sign(
      payload   
 , config.jwtSecret as string, {expiresIn:'7d'});
     
+// return token
     return token;
 }
 const forgotPassword = async(email:string) => {
@@ -42,7 +63,8 @@ const forgotPassword = async(email:string) => {
     if(!email){
         throw new AppError(false,400,'Email is required');
     }
-    const user = await signupModel.findOne({email:email})
+    const user = await userModel.findOne({email:email})
+    
     if(!user){
         throw new AppError(false,404,'User not found');
     }
@@ -58,15 +80,41 @@ const forgotPassword = async(email:string) => {
 
 const responseEmail = await sendEmail(email,`<p>Your password reset link: <a href="http://localhost:5000/api/auth/reset-password/?token=${token}">Reset Password</a></p><p>This link is valid for 5 minutes.</p>`);
 
-console.log(responseEmail)
 return token;
 }
 
+const resetPassword = async(token:string,newPassword:string)=>{
+    // reset password Logic here
+    if(!token || !newPassword){
+        throw new AppError(false,400,'Token and new password are required');
+    }
+    let payload:any;
+    // verify token
+    try{
+        payload = jwt.verify(token,config.jwtSecret as string)
+    }catch(err:any){
+        throw new AppError(false,400,err.message||'Invalid or expired token');
+    }
+    // extract userId and email from payload
+    const {userId,email} = payload;
+    const user = await userModel.findOne({_id:userId,email:email})
+// check if user exists
+    if(!user){
+        throw new AppError(false,404,'User not found');
+    }
+// update password
+    user.password = newPassword;
+    const result = await user.save();
+
+    return result;
+    
+}
 
 
 export const authServices =  {
     signup,
     signIn,
-    forgotPassword
+    forgotPassword,
+    resetPassword
 
 };
