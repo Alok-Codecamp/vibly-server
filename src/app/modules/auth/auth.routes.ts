@@ -12,6 +12,8 @@ const router  = Router();
 router.post("/signup",requestValidator(authValidation.signUp), authController.signup);
 // signin route
 router.post("/signin",requestValidator(authValidation.signIn), authController.signIn);
+// generate refresh token route
+router.post("/refresh-token",authController.generateRefreshToken)
 // forgot password route
 router.post("/forgot-password", authController.forgotPassword);
 

@@ -1,13 +1,13 @@
 import { Model } from "mongoose";
 
 // User interface definition
-const enum UserRole {
+ export enum UserRole {
     ADMIN = 'admin',
     USER = 'user',
     GUEST = 'guest'
 }
 export interface IUser {
-    id: number;
+    id?: number;
     firstName: string;
     lastName: string;
     dateOfBirth: string;

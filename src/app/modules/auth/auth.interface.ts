@@ -2,7 +2,7 @@
 export interface ISignupData {
     firstName: string;
     lastName: string;
-    dob: string;
+    dateOfBirth: string;
     email: string;
     password: string;
     
