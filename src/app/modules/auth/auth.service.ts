@@ -52,7 +52,8 @@ const signIn = async(loginData:ISigninData) => {
     //create payload for token
     const payload = { 
         userId: existedUser._id.toString(),
-        email:existedUser.email
+        email:existedUser.email,
+        role: existedUser.role
 
     };
     

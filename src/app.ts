@@ -2,6 +2,7 @@ import express, { type Application } from "express";
 import cors from "cors";
 import { authRoutes } from "./app/modules/auth/auth.routes.js";
 import globalErrorHandler from "./app/middleware/globalErrorHandler.js";
+import { userRoutes } from "./app/modules/user/user.route.js";
 
 
 // define express application
@@ -17,7 +18,7 @@ app.get("/", (req, res) => {
   res.send("Vibly Server express app is running");
 });
 
-app.use('/api/auth', authRoutes)
+app.use('/api', [authRoutes,userRoutes])
 
 
 // app exported here 

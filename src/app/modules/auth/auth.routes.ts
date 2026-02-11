@@ -9,16 +9,16 @@ import { authValidation } from "./auth.validation.js";
 const router  = Router();
 
 // signup route
-router.post("/signup",requestValidator(authValidation.signUp), authController.signup);
+router.post("/auth/signup",requestValidator(authValidation.signUp), authController.signup);
 // signin route
-router.post("/signin",requestValidator(authValidation.signIn), authController.signIn);
+router.post("/auth/signin",requestValidator(authValidation.signIn), authController.signIn);
 // generate refresh token route
-router.post("/refresh-token",authController.generateRefreshToken)
+router.post("/auth/refresh-token",authController.generateRefreshToken)
 // forgot password route
-router.post("/forgot-password", authController.forgotPassword);
+router.post("/auth/forgot-password", authController.forgotPassword);
 
 // reset password route
-router.post("/reset-password", authController.resetPassword);
+router.post("/auth/reset-password", authController.resetPassword);
 
 
 export const authRoutes = router;
