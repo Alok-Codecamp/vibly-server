@@ -82,7 +82,7 @@ const generateRefreshToken = async(refreshToken:string) => {
 // service function for handle forgot password logic
 const forgotPassword = async(email:string) => {
     // forgot password Logic here 
-    if(!email){
+    if(!email){    
         throw new AppError(false,400,'Email is required');
     }
     const user = await UserModel.findOne({email:email})
