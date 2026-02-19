@@ -14,6 +14,7 @@ export interface IUser {
     email: string;
     password: string;
     role: UserRole;
+    profilePic?:string;
     createdAt: Date;
     isActive: boolean;
 }

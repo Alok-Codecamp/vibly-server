@@ -12,6 +12,7 @@ const UserSchema = new Schema<IUser,IUserModel>({
     email: { type: String, required: true, unique: true },
     password:{type:String,required:true},
     role:{type:String,required:true,enum:['admin','user','guest'],default:UserRole.USER},
+    profilePic:{type:String,default:""},
     createdAt: { type: Date, default: Date.now },
     isActive: { type: Boolean, default: true }
 })
